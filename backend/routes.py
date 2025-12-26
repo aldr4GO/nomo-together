@@ -14,13 +14,14 @@ from datetime import datetime
 public_bp = Blueprint('public', __name__)
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
+now_name = datetime.now()
 
 # ==================== ADMIN EXPORT ROUTE ====================
 @admin_bp.route('/export-db', methods=['GET'])
 @require_admin
 def export_db():
     """Export the SQLite DB as an Excel file and send as download"""
-    db_path = os.path.join(os.path.dirname(__file__), 'instance', 'momo_orders.db')
+    db_path = os.path.join(os.path.dirname(__file__), 'instance', f'momo_orders.db')
     if not os.path.exists(db_path):
         return jsonify({'error': 'Database file not found'}), 404
 
@@ -51,12 +52,10 @@ def get_status():
     return jsonify(status.to_dict())
 
 
-@public_bp.route('/menu', methods=['GET', 'OPTIONS'])
+@public_bp.route('/menu', methods=['GET'])
 def get_menu():
     """Get all menu items"""
-    print("getting all menu items")
     items = MenuItem.query.filter_by(is_available=True).all()
-    print("got all menu items")
     return jsonify([item.to_dict() for item in items])
 
 

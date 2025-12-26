@@ -1,5 +1,6 @@
 // Use proxy in development, or direct URL
-const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : 'http://localhost:5000');
+// In production, use relative path ('') so requests go to same domain as backend
+const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : '');
 
 /**
  * Make API request with error handling
@@ -9,7 +10,6 @@ async function apiRequest(endpoint, options = {}) {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'access-control-allow-origin' : 'https://nomo-frontend.vercel.app',
       ...options.headers,
     },
     credentials: 'include', // Include cookies for session

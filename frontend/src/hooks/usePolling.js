@@ -7,8 +7,7 @@ import { useEffect, useRef } from 'react';
  * @param {boolean} enabled - Whether polling is enabled
  */
 export function usePolling(fetchFunction, interval = 10000, enabled = true) {
-  const savedCallback = useRef(fetchFunction);
-  const isPolling = useRef(false);
+  const savedCallback = useRef();
 
   useEffect(() => {
     savedCallback.current = fetchFunction;
@@ -20,28 +19,24 @@ export function usePolling(fetchFunction, interval = 10000, enabled = true) {
     let intervalId;
 
     const poll = async () => {
-      if (isPolling.current) return; // prevent overlap
-      isPolling.current = true;
-
       try {
         await savedCallback.current();
-      } catch {
-        // swallow errors — polling must be resilient
-      } finally {
-        isPolling.current = false;
+      } catch (error) {
+        console.error('Polling error:', error);
       }
     };
 
-    // 🔑 IMPORTANT: delay first poll slightly
-    const timeoutId = setTimeout(poll, 1200);
+    // Initial fetch
+    poll();
 
+    // Set up interval
     intervalId = setInterval(poll, interval);
 
     return () => {
-      clearTimeout(timeoutId);
-      clearInterval(intervalId);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     };
   }, [interval, enabled]);
 }
-
 

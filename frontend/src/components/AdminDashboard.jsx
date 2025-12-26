@@ -56,7 +56,8 @@ export default function AdminDashboard() {
 
       // Get status via public API
       try {
-        const apiBase = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : 'http://localhost:5000');
+        // In production, use relative path ('') so requests go to same domain as backend
+        const apiBase = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : '');
         const statusResponse = await fetch(`${apiBase}/status`, {
           credentials: 'include',
         });
@@ -157,7 +158,8 @@ export default function AdminDashboard() {
               <button
                 onClick={async () => {
                   try {
-                    const apiBase = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : 'http://localhost:5000');
+                    // In production, use relative path ('') so requests go to same domain as backend
+                    const apiBase = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '/api' : '');
                     const res = await fetch(`${apiBase}/admin/export-db`, {
                       credentials: 'include',
                     });

@@ -18,14 +18,11 @@ UNIVERSAL_ITEMS = [
     {'name': 'Chicken Oats Momos', 'category': 'Healthy Momos', 'price_full': 250, 'price_half': 180},
     
     # Dim Sums
-    {'name': 'Chicken Dim Sum', 'category': 'Dim Sums', 'price_full': 10, 'price_half': 70},
-    {'name': 'Veg Dim Sum', 'category': 'Dim Sums', 'price_full': 110, 'price_half': 65},
-    {'name': 'Prawn Dim Sum', 'category': 'Dim Sums', 'price_full': 140, 'price_half': 80},
-    {'name': 'Pork Dim Sum', 'category': 'Dim Sums', 'price_full': 130, 'price_half': 75},
-    {'name': 'Beef Dim Sum', 'category': 'Dim Sums', 'price_full': 135, 'price_half': 80},
-    {'name': 'Mushroom Dim Sum', 'category': 'Dim Sums', 'price_full': 115, 'price_half': 70},
-    {'name': 'Shrimp Dim Sum', 'category': 'Dim Sums', 'price_full': 145, 'price_half': 85},
-    {'name': 'Crab Dim Sum', 'category': 'Dim Sums', 'price_full': 150, 'price_half': 90},
+    {'name': 'Spinach Cheese Corn', 'category': 'Dim Sums', 'price_full': 300, 'price_half': 210},
+    {'name': 'Mushroom cheese', 'category': 'Dim Sums', 'price_full': 300, 'price_half': 210},
+    {'name': 'Chicken Lemon', 'category': 'Dim Sums', 'price_full': 300, 'price_half': 210},
+    {'name': 'Chicken Teriyaki', 'category': 'Dim Sums', 'price_full': 300, 'price_half': 210},
+    {'name': 'Chicken Chilly Oil', 'category': 'Dim Sums', 'price_full': 300, 'price_half': 210}
 ]
 
 def get_universal_items():

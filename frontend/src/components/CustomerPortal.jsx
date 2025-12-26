@@ -15,7 +15,6 @@ export default function CustomerPortal() {
   const [showPayment, setShowPayment] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
-  const [statusReady, setStatusReady] = useState(false);
   const { cart, getTotalItems, clearCart } = useCart();
 
   // Fetch status and menu on load
@@ -24,37 +23,30 @@ export default function CustomerPortal() {
   }, []);
 
   // Poll status every 10 seconds
-  usePolling(
-    async () => {
+  usePolling(async () => {
+    try {
       const statusData = await publicAPI.getStatus();
-      if (statusData) {
-        setStatus(statusData);
-      }
-    },
-    10000,
-    statusReady
-  );
-
+      setStatus(statusData);
+    } catch (error) {
+      console.error('Error polling status:', error);
+    }
+  }, 10000, true);
 
   const loadData = async () => {
     try {
-      console.log("setLoading")
       setLoading(true);
       setError(null);
-
-      console.log("const menuData")
-      const menuData = await publicAPI.getMenu();
-      console.log("menuData obtained successfully!!")
-      console.log("setMenu")
-      setMenu(menuData);
       
-      console.log("const statusData")
-      const statusData = await publicAPI.getStatus();
+      const [statusData, menuData] = await Promise.all([
+        publicAPI.getStatus(),
+        publicAPI.getMenu(),
+      ]);
+      
       setStatus(statusData);
-      setStatusReady(true); // IMPORTANT
+      setMenu(menuData);
     } catch (error) {
       console.error('Error loading data:', error);
-      setError('Failed to load data');
+      setError(error.message || 'Failed to load data');
     } finally {
       setLoading(false);
     }
@@ -158,7 +150,7 @@ export default function CustomerPortal() {
               alert('Restaurant is currently paused. Please try again later.');
               return;
             }
-            if (!name || !phone) {
+            if (!name) {
               alert('Please enter your name and phone number');
               return;
             }
